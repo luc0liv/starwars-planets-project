@@ -11,8 +11,4 @@ export const columnFilter = [
   'surface_water',
 ];
 
-export const comparisonFilter = [
-  { name: 'maior que', value: '>' },
-  { name: 'menor que', value: '<' },
-  { name: 'igual a', value: '===' },
-];
+export const comparisonFilter = ['maior que', 'menor que', 'igual a'];

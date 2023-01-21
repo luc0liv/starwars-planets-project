@@ -27,8 +27,23 @@ function App() {
     return setFilteredPlanets('');
   };
 
+  const getFilteringValues = (column, comparison, number) => {
+    const comparisons = {
+      'maior que': planets.filter((planet) => planet[column] > number),
+      'menor que': planets.filter((planet) => planet[column] < number),
+      'igual a': planets.filter((planet) => planet[column] === number),
+    };
+    setFilteredPlanets(comparisons[comparison]);
+  };
+
   return (
-    <PlanetsContext.Provider value={ { planets, filteredPlanets, filterPlanetsByName } }>
+    <PlanetsContext.Provider
+      value={ {
+        planets,
+        filteredPlanets,
+        filterPlanetsByName,
+        getFilteringValues } }
+    >
       <Table />
     </PlanetsContext.Provider>
   );

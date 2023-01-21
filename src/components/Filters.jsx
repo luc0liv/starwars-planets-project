@@ -10,7 +10,7 @@ function Filters() {
   const [numberInput, setNumberInput] = useState(0);
   const [columnValue, setColumnValue] = useState('');
   const [comparisonValue, setComparisonValue] = useState('');
-  const { filterPlanetsByName } = useContext(PlanetsContext);
+  const { filterPlanetsByName, getFilteringValues } = useContext(PlanetsContext);
 
   const handleNameChange = ({ target }) => {
     const { value } = target;
@@ -18,16 +18,10 @@ function Filters() {
     filterPlanetsByName(value);
   };
 
-  const handleNumberChange = ({ target }) => {
-    const { value } = target;
-    // console.log(value);
-    setNumberInput(value);
-  };
+  const handleChange = (target, setState) => setState(target.value);
 
-  const handleChange = (target, setState) => {
-    const { value } = target;
-    // console.log(value);
-    setState(value);
+  const sendFilterValues = () => {
+    getFilteringValues(columnValue, comparisonValue, numberInput);
   };
 
   return (
@@ -56,9 +50,16 @@ function Filters() {
       <Input
         inputType="number"
         inputValue={ numberInput }
-        onInputChange={ handleNumberChange }
+        onInputChange={ ({ target }) => handleChange(target, setNumberInput) }
         testId="value-filter"
       />
+      <button
+        type="button"
+        data-testid="button-filter"
+        onClick={ sendFilterValues }
+      >
+        Filtrar
+      </button>
     </div>
   );
 }
