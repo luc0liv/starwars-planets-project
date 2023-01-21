@@ -1,27 +1,15 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
-import formatHeaders from '../helpers';
-import Input from './Input';
+import { formatHeaders } from '../helpers';
+import Filters from './Filters';
 
 function Table() {
-  const { planets, filteredPlanets, filterPlanetsByName } = useContext(PlanetsContext);
-  const [input, setInput] = useState('');
+  const { planets, filteredPlanets } = useContext(PlanetsContext);
   const planetsList = filteredPlanets.length === 0 ? planets : filteredPlanets;
-
-  const handleChange = ({ target }) => {
-    const { value } = target;
-    setInput(value);
-    filterPlanetsByName(value);
-  };
 
   return (
     <div>
-      <Input
-        inputType="text"
-        inputValue={ input }
-        onInputChange={ handleChange }
-        testId="name-filter"
-      />
+      <Filters />
       <table>
         <thead>
           <tr>
