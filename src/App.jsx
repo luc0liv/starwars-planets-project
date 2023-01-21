@@ -17,7 +17,7 @@ function App() {
       .catch((error) => console.error(error));
   }, []);
 
-  const filterPlanets = (name) => {
+  const filterPlanetsByName = (name) => {
     if (name !== '') {
       const filterByName = planets
         .filter((planet) => planet.name.toLowerCase().includes(name.toLowerCase()));
@@ -28,7 +28,7 @@ function App() {
   };
 
   return (
-    <PlanetsContext.Provider value={ { planets, filteredPlanets, filterPlanets } }>
+    <PlanetsContext.Provider value={ { planets, filteredPlanets, filterPlanetsByName } }>
       <Table />
     </PlanetsContext.Provider>
   );
