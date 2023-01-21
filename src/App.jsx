@@ -1,10 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import './App.css';
 import Table from './components/Table';
 import PlanetsContext from './context/PlanetsContext';
 
 function App() {
   const [planets, setPlanets] = useState([]);
+  const filters = useRef({
+    name: '',
+    comparisons: [],
+  });
   const [filteredPlanets, setFilteredPlanets] = useState([]);
 
   useEffect(() => {
@@ -15,12 +19,15 @@ function App() {
         setPlanets(newPlanetsArray);
       })
       .catch((error) => console.error(error));
-  }, []);
+  }, [filters, filteredPlanets]);
 
   const filterPlanetsByName = (name) => {
     if (name !== '') {
+      const saveName = { ...filters.current, name };
+      filters.current = saveName;
       const filterByName = planets
-        .filter((planet) => planet.name.toLowerCase().includes(name.toLowerCase()));
+        .filter((planet) => planet.name.toLowerCase()
+          .includes(filters.current.name.toLowerCase()));
       return setFilteredPlanets(filterByName);
     }
 
@@ -28,12 +35,22 @@ function App() {
   };
 
   const getFilteringValues = (column, comparison, number) => {
-    const comparisons = {
-      'maior que': planets.filter((planet) => planet[column] > number),
-      'menor que': planets.filter((planet) => planet[column] < number),
-      'igual a': planets.filter((planet) => planet[column] === number),
+    const newFilters = {
+      name: filters.current.name,
+      comparisons: [...filters.current.comparisons, { column, comparison, number }],
     };
-    setFilteredPlanets(comparisons[comparison]);
+    filters.current = newFilters;
+    return filters.current.comparisons.map((comp) => {
+      const conditional = !filteredPlanets.length ? planets : filteredPlanets;
+      const treatComparisons = {
+        'maior que': conditional.filter((planet) => +planet[column] > +number),
+        'menor que': conditional.filter((planet) => +planet[column] < +number),
+        'igual a': conditional.filter((planet) => +planet[column] === +number),
+      };
+
+      const filtered = treatComparisons[comp.comparison];
+      return setFilteredPlanets(filtered);
+    });
   };
 
   return (

@@ -8,8 +8,8 @@ import '../assets/css/filters.css';
 function Filters() {
   const [input, setInput] = useState('');
   const [numberInput, setNumberInput] = useState(0);
-  const [columnValue, setColumnValue] = useState('');
-  const [comparisonValue, setComparisonValue] = useState('');
+  const [columnValue, setColumnValue] = useState('population');
+  const [comparisonValue, setComparisonValue] = useState('maior que');
   const { filterPlanetsByName, getFilteringValues } = useContext(PlanetsContext);
 
   const handleNameChange = ({ target }) => {
