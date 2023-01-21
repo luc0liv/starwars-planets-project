@@ -17,6 +17,7 @@ function Table() {
   return (
     <div>
       <Input
+        inputType="text"
         inputValue={ input }
         onInputChange={ handleChange }
         testId="name-filter"
@@ -24,17 +25,17 @@ function Table() {
       <table>
         <thead>
           <tr>
-            {!planets.length ? (
+            {!planetsList.length ? (
               <td>Carregando...</td>
             ) : (
-              Object.keys(planets[0]).map((key, index) => (
+              Object.keys(planetsList[0]).map((key, index) => (
                 <th key={ `${key}-${index}` }>{formatHeaders(key)}</th>
               ))
             )}
           </tr>
         </thead>
         <tbody>
-          {!planets.length ? (
+          {!planetsList.length ? (
             <tr>
               <td>Carregando... </td>
             </tr>
