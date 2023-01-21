@@ -5,6 +5,7 @@ import PlanetsContext from './context/PlanetsContext';
 
 function App() {
   const [planets, setPlanets] = useState([]);
+  const [filteredPlanets, setFilteredPlanets] = useState([]);
 
   useEffect(() => {
     fetch('https://swapi.dev/api/planets')
@@ -16,8 +17,18 @@ function App() {
       .catch((error) => console.error(error));
   }, []);
 
+  const filterPlanets = (name) => {
+    if (name !== '') {
+      const filterByName = planets
+        .filter((planet) => planet.name.toLowerCase().includes(name.toLowerCase()));
+      return setFilteredPlanets(filterByName);
+    }
+
+    return setFilteredPlanets('');
+  };
+
   return (
-    <PlanetsContext.Provider value={ { planets } }>
+    <PlanetsContext.Provider value={ { planets, filteredPlanets, filterPlanets } }>
       <Table />
     </PlanetsContext.Provider>
   );
