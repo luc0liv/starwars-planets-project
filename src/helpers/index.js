@@ -4,11 +4,11 @@ export const formatHeaders = (header) => {
 };
 
 export const columnFilter = [
-  { value: 'population', name: 'Population' },
-  { value: 'orbital_period', name: 'Orbital period' },
-  { value: 'diameter', name: 'Diameter' },
-  { value: 'rotation_period', name: 'Rotation period' },
-  { value: 'surface_water', name: 'Surface water' },
+  'population',
+  'orbital_period',
+  'diameter',
+  'rotation_period',
+  'surface_water',
 ];
 
 export const comparisonFilter = [

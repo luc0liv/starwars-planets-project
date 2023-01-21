@@ -40,12 +40,14 @@ function Filters() {
         placeholder="Pesquisa por nome"
       />
       <Select
+        testId="column-filter"
         options={ columnFilter }
         selectValue={ columnValue }
         selectName="columnValue"
         onSelectChange={ ({ target }) => handleChange(target, setColumnValue) }
       />
       <Select
+        testId="comparison-filter"
         options={ comparisonFilter }
         selectValue={ comparisonValue }
         selectName="comparisonValue"
