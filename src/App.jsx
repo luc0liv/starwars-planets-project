@@ -2,9 +2,12 @@ import React, { useEffect, useState, useRef } from 'react';
 import './App.css';
 import Table from './components/Table';
 import PlanetsContext from './context/PlanetsContext';
+import { columnFilter } from './helpers';
 
 function App() {
   const [planets, setPlanets] = useState([]);
+  const newColumnOptions = useRef(columnFilter);
+
   const filters = useRef({
     name: '',
     comparisons: [],
@@ -53,12 +56,19 @@ function App() {
     });
   };
 
+  const removeFilters = (columnValue) => {
+    const filterOptions = newColumnOptions.current.filter((col) => col !== columnValue);
+    newColumnOptions.current = filterOptions;
+  };
+
   return (
     <PlanetsContext.Provider
       value={ {
         planets,
         filteredPlanets,
         filters,
+        newColumnOptions,
+        removeFilters,
         filterPlanetsByName,
         getFilteringValues } }
     >
