@@ -19,7 +19,7 @@ function App() {
         setPlanets(newPlanetsArray);
       })
       .catch((error) => console.error(error));
-  }, [filters, filteredPlanets]);
+  }, []);
 
   const filterPlanetsByName = (name) => {
     if (name !== '') {
@@ -58,6 +58,7 @@ function App() {
       value={ {
         planets,
         filteredPlanets,
+        filters,
         filterPlanetsByName,
         getFilteringValues } }
     >
