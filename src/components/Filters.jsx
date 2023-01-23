@@ -1,18 +1,21 @@
 import React, { useState, useContext } from 'react';
 import Select from './Select';
 import Input from './Input';
-// import FilterButtons from './FilterButtons';
+import FilterButtons from './FilterButtons';
 import PlanetsContext from '../context/PlanetsContext';
 import { comparisonFilter } from '../helpers';
 import '../assets/css/filters.css';
+import Button from './Button';
 
 function Filters() {
   const {
     filterPlanetsByName,
     getFilteringValues,
     newColumnOptions,
-    removeFilters,
-    // filters,
+    removeFilterOptionFromSelection,
+    removeAllFilters,
+    removeSelectedFilter,
+    filters,
   } = useContext(PlanetsContext);
   const [input, setInput] = useState('');
   const [numberInput, setNumberInput] = useState(0);
@@ -29,8 +32,10 @@ function Filters() {
 
   const sendFilterValues = () => {
     getFilteringValues(columnValue, comparisonValue, numberInput);
-    removeFilters(columnValue);
+    removeFilterOptionFromSelection(columnValue);
     setColumnValue(newColumnOptions.current[0]);
+    setInput('');
+    setNumberInput(0);
   };
 
   return (
@@ -62,20 +67,24 @@ function Filters() {
         onInputChange={ ({ target }) => handleChange(target, setNumberInput) }
         testId="value-filter"
       />
-      <button
-        type="button"
-        data-testid="button-filter"
-        onClick={ sendFilterValues }
-      >
-        Filtrar
-      </button>
-      {/* <div>
-        { filters.current.comparisons
-          .map((comp) => (<FilterButtons
-            key={ comp.column }
+      <Button
+        name="Filtrar"
+        testId="button-filter"
+        onButtonClick={ sendFilterValues }
+      />
+      {filters.current.comparisons.map((comp, index) => (
+        <div key={ index } data-testid="filter">
+          <FilterButtons
             name={ `${comp.column} ${comp.comparison} ${comp.number}` }
-          />))}
-      </div> */}
+            onClick={ () => removeSelectedFilter(comp) }
+          />
+        </div>
+      ))}
+      <Button
+        testId="button-remove-filters"
+        name="Remover todos os filtros"
+        onButtonClick={ removeAllFilters }
+      />
     </div>
   );
 }

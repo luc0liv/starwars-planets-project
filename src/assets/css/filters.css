@@ -3,3 +3,17 @@
   justify-content: space-between;
   width: 100%;
 }
+
+.delete-filter {
+  align-items: center;
+  background-color: transparent;
+  border: 0;
+  display: flex;
+  font-weight: 700;
+  justify-content: space-between;
+}
+
+.delete-filter img {
+  padding: 0 0.5rem;
+  width: 15px;
+}

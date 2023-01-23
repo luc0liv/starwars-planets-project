@@ -7,7 +7,6 @@ import { columnFilter } from './helpers';
 function App() {
   const [planets, setPlanets] = useState([]);
   const newColumnOptions = useRef(columnFilter);
-
   const filters = useRef({
     name: '',
     comparisons: [],
@@ -37,28 +36,64 @@ function App() {
     return setFilteredPlanets('');
   };
 
+  const getPlanetsFilteredByComparison = (item) => filters.current.comparisons
+    .map((comp) => {
+      const conditional = !filteredPlanets.length ? planets : filteredPlanets;
+      const treatComparisons = {
+        'maior que': conditional.filter((planet) => +planet[item.column] > +item.number),
+        'menor que': conditional.filter((planet) => +planet[item.column] < +item.number),
+        'igual a': conditional.filter((planet) => +planet[item.column] === +item.number),
+      };
+      const filtered = treatComparisons[comp.comparison];
+      return setFilteredPlanets(filtered);
+    });
+
   const getFilteringValues = (column, comparison, number) => {
     const newFilters = {
       name: filters.current.name,
       comparisons: [...filters.current.comparisons, { column, comparison, number }],
     };
     filters.current = newFilters;
-    return filters.current.comparisons.map((comp) => {
-      const conditional = !filteredPlanets.length ? planets : filteredPlanets;
+    return getPlanetsFilteredByComparison({ column, comparison, number });
+  };
+
+  const removeFilterOptionFromSelection = (option) => {
+    const filterOptions = newColumnOptions.current.filter((col) => col !== option);
+    newColumnOptions.current = filterOptions;
+  };
+
+  const removeAllFilters = () => {
+    // botão p/ remover todos os filtros;
+    const newFilters = ({
+      name: '',
+      comparisons: [],
+    });
+    filters.current = newFilters;
+    newColumnOptions.current = columnFilter;
+    setFilteredPlanets(planets);
+  };
+
+  const removeSelectedFilter = (selection) => {
+    // remove o filtro selecionado
+    const filtersList = filters.current.comparisons.filter((c) => c !== selection);
+    const newFilters = {
+      name: '',
+      comparisons: filtersList,
+    };
+    filters.current = newFilters;
+    let planetsAfterRemove = [];
+    filters.current.comparisons.forEach((comp) => {
       const treatComparisons = {
-        'maior que': conditional.filter((planet) => +planet[column] > +number),
-        'menor que': conditional.filter((planet) => +planet[column] < +number),
-        'igual a': conditional.filter((planet) => +planet[column] === +number),
+        'maior que': planets.filter((planet) => +planet[comp.column] > +comp.number),
+        'menor que': planets.filter((planet) => +planet[comp.column] < +comp.number),
+        'igual a': planets.filter((planet) => +planet[comp.column] === +comp.number),
       };
 
       const filtered = treatComparisons[comp.comparison];
-      return setFilteredPlanets(filtered);
+      planetsAfterRemove = [...filtered];
     });
-  };
-
-  const removeFilters = (columnValue) => {
-    const filterOptions = newColumnOptions.current.filter((col) => col !== columnValue);
-    newColumnOptions.current = filterOptions;
+    newColumnOptions.current = [...newColumnOptions.current, selection.column];
+    return setFilteredPlanets(planetsAfterRemove);
   };
 
   return (
@@ -68,7 +103,9 @@ function App() {
         filteredPlanets,
         filters,
         newColumnOptions,
-        removeFilters,
+        removeFilterOptionFromSelection,
+        removeAllFilters,
+        removeSelectedFilter,
         filterPlanetsByName,
         getFilteringValues } }
     >

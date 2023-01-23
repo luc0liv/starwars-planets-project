@@ -1,0 +1,6 @@
+.default-button {
+  background-color: transparent;
+  border-radius: 4px;
+  font-weight: 700;
+  padding: 0.4rem 0.6rem;
+}
