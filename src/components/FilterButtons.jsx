@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import trashIcon from '../assets/img/trashIcon.svg';
+import trashIcon from '../assets/img/trash-icon.svg';
 
 function FilterButtons({ name, onClick }) {
   return (
