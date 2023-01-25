@@ -14,9 +14,9 @@ function Select({ options, onSelectChange, selectName, selectValue, testId }) {
         .map((option, index) => (
           <option
             key={ index }
-            value={ !option.value ? option : option.value }
+            value={ option }
           >
-            {!option.name ? option : option.name}
+            { option }
           </option>))}
     </select>
   );
