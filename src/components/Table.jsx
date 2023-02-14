@@ -31,7 +31,12 @@ function Table() {
             planetsList.map((planet) => (
               <tr key={ planet.name }>
                 {Object.keys(planet).map((key) => (
-                  <td key={ key }>{planet[key]}</td>
+                  <td
+                    key={ key }
+                    data-testid={ key === 'name' ? 'planet-name' : '' }
+                  >
+                    {planet[key]}
+                  </td>
                 ))}
               </tr>
             ))

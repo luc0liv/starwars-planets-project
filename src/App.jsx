@@ -96,6 +96,17 @@ function App() {
     return setFilteredPlanets(planetsAfterRemove);
   };
 
+  const sortPlanetsList = (order, sort) => {
+    const conditional = !filteredPlanets.length ? planets : filteredPlanets;
+    const orderingPlanets = {
+      ASC: [...conditional].sort((a, b) => a[order] !== 'unknown'
+      && Number(a[order]) - Number(b[order])),
+      DESC: [...conditional].sort((a, b) => b[order] !== 'unknown'
+      && Number(b[order]) - Number(a[order])),
+    };
+    return setFilteredPlanets(orderingPlanets[sort]);
+  };
+
   return (
     <PlanetsContext.Provider
       value={ {
@@ -103,6 +114,7 @@ function App() {
         filteredPlanets,
         filters,
         newColumnOptions,
+        sortPlanetsList,
         removeFilterOptionFromSelection,
         removeAllFilters,
         removeSelectedFilter,
